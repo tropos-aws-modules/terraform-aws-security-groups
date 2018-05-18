@@ -232,6 +232,11 @@ output "internal_psql" {
   value = "${aws_security_group.internal_psql.id}"
 }
 
+// External PSQL allows postgres psql connections on port 5432 from the world
+output "external_psql" {
+  value = "${aws_security_group.external_psql.id}"
+}
+
 // Internal Redis allows redis connections on port 6379
 output "internal_redis" {
   value = "${aws_security_group.internal_redis.id}"

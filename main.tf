@@ -163,6 +163,28 @@ resource "aws_security_group" "internal_psql" {
   }
 }
 
+resource "aws_security_group" "external_psql" {
+  name_prefix = "${format("%s-%s-external-psql-", var.name, var.environment)}"
+  vpc_id      = "${var.vpc_id}"
+  description = "Allows incoming psql traffic from the world"
+
+  ingress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  tags {
+    Name        = "${format("%s external psql", var.name)}"
+    Environment = "${var.environment}"
+  }
+}
+
 resource "aws_security_group" "internal_redis" {
   name_prefix = "${format("%s-%s-internal-redis-", var.name, var.environment)}"
   vpc_id      = "${var.vpc_id}"
